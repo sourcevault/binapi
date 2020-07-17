@@ -1,66 +1,54 @@
-z            = console.log
+# --------------------------------------------------------------------------------------
 
-l            = console.log
+js-render     = require 'json-stringify-pretty-compact'
 
-R            = require "ramda"
+R             = require "ramda"
 
-chalk        = require "chalk"
+guard         = require "guard-js"
 
-util         = require "util"
+yuan          = require \@yuanchuan/match
 
-show-ob      = require "json-stringify-pretty-compact"
+SI            = require "seamless-immutable"
 
-SI           = require "seamless-immutable"
+reg           = require "./registry"
 
-guardjs      = require "guard-js"
+# --------------------------------------------------------------------------------------
 
-sim          = require "seamless-immutable-mergers"
+l = console.log
 
-traverse     = require "traverse"
-
-pretty-error = require "pretty-error"
+z = l
 
 noop = !->
 
+j = (json) !-> l js-render json
+
+# --------------------------------------------------------
+
 if (typeof window is "undefined") and (typeof module is "object")
 
-	util = require "util"
+  isNodeJS = true
 
-	util-inspect-custom = util.inspect.custom
+  util = require "util"
 
-	noop[util-inspect-custom] = -> @[util-inspect-custom]
+  util-inspect-custom = util.inspect.custom
 
 else
 
-	util-inspect-custom = Symbol "spam"
+  util-inspect-custom = Symbol.for "nodejs.util.inspect.custom"
+
+# --------------------------------------------------------
 
 
-c = {}
-	..ok   = chalk.green.bold
-	..er   = chalk.hex "FF0000"
-	..warn = chalk.hex "FFFFCD"
+main =
+  j                   : j
+  z                   : z
+  R                   : R
+  l                   : l
+  SI                  : SI
+  guard               : guard
+  yuan                : yuan
+  noop                : noop
+  util-inspect-custom : util-inspect-custom
+  isNodeJS            : isNodeJS
 
-module-name = "valleydate"
-
-unfinished = (name)-> !-> l " <| #{name} |>"
-
-guard = (whn,fn) -> (guardjs!).when whn,fn
-
-module.exports =
-	*z:z
-		l:l
-		chalk:chalk
-		guard:guard
-		guardjs:guardjs
-		unfinished:unfinished
-		SI:SI
-		j:(j)-> console.log show-ob j
-		R:R
-		immutable:SI["static"]
-		sim:sim
-		util-inspect-custom:util-inspect-custom
-		noop:noop
-		module-name:module-name
-		traverse:traverse
-		pretty-error:pretty-error
-
+module.exports = main

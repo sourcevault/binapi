@@ -1,10 +1,10 @@
-name: valleydate
+name: binapi
 author: sourcevault
 email: joykrishnamondal@gmail.com
-homepage: https://github.com/sourcevault/valleydate#readme.md
+homepage: https://github.com/sourcevault/binapi#readme.md
 license: MIT
-description: immutable object validator
-repository: https://github.com/sourcevault/valleydate.git
+description: binary api
+repository: https://github.com/sourcevault/binapi.git
 version: 0.0.4
 main: dist/main.js
 scripts:
@@ -17,22 +17,8 @@ dependencies:
   guard-js: "0.1.1"
   seamless-immutable-mergers: "7.1.0"
   traverse: "0.6.6"
-  at-line: "1.0.0"
   pretty-error: "2.1.1"
+  '@yuanchuan/match': "1.0.1"
 keywords:
-  - "schema-validator"
-  - "validator"
   - "simple"
-  - "type-check"
-  - "types"
-  - "objects"
-  - "JSON"
-  - "monadic"
   - "functional"
-  - "validate"
-  - "Array"
-  - "error-messages"
-  - "mostjs"
-  - "immutable"
-  - "chainable"
-  - "monad"
