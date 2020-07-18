@@ -1,29 +1,31 @@
 
-
 reg = {}
+
   ..packageJ   = {}
     ..name     = \binapi
     ..homepage = \https://github.com/sourcevault/binapi#readme.md
 
-  ..pub = {}
-
-    ..list = null
-    ..obj  = null
-    ..main = null
-
-  ..process = {}
-    ..aux = null
-    ..prox = null
-
   ..printE = {}
     ..noArg = null
+    ..funIsFun = null
+    ..fail = null
 
   ..get = {}
     ..main  = null
     ..entry = null
 
-  ..prox = null # 2) imp logic
-  ..main = null # 1) entry
+  ..checkLog = null
+
+  ..main  = null
+
+  ..entry = {}
+    ..list = null
+    ..ob = null
+
+  ..pub = ->
+    ..list = null
+    ..obj  = null
+
 
 
 module.exports = reg

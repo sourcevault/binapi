@@ -2,9 +2,8 @@
 ![](https://raw.githubusercontent.com/sourcevault/binapi/readme/logo.jpg)
 
 ```js
-// npm                              |
 npm install binapi
-// github        much install       |
+// github        much install     |
 npm install sourcevault/binapi#dist
 ```
 
@@ -57,7 +56,7 @@ subtract.abs.flip(10,5) //  5
 
 As shown in the above listing, we are using object properties as switches to turn "ON" certain flags in `main` above.
 
-It's a pattern that can be used in situations where there is a need for module consumers to start with sane defaults and then play around with module flags to customize functionality, instead of embedding them in an object and passing it as an extra argument  - which can be a hassle at the margins.
+It's a pattern that can be used in situations where there is a need for module consumers to start with sane defaults and then play around with module flags to customize functionality, instead of embedding them in an object and passing it as an extra argument  - which can be a hassle.
 
 [colors](https://www.npmjs.com/package/colors) is a good example of module that follows this pattern.
 
@@ -137,17 +136,15 @@ var subtract = function (flags)
 
 Interally `binapi` uses ES6 proxies allowing us to bind custom log functions - making it possible to provide better object information when `console.log` ing the object :
 
-
+A custom logger can be passed either using `util.inspect.custom` or `log` key attached to the the main function :
 
 ```js
 
 var binapi = require ("binapi")
 
-var utils = require ("utils")
-
 main = function (){}
 
-main[util.inspect.custom] = function(path)
+main.log = function(path)
 {
 	var chain = ""path.join(' | ')
 
@@ -161,10 +158,9 @@ console.log (tsf) // ( sync | flip )
 
 ```
 
-
 #### .. passing state
 
-Sometimes you want to pass some state to your function, this is especially useful for nested proxies.
+Sometimes some state has to be present in your function, this is especially useful for nested proxies.
 
 ```js
 var binapi = require("binapi");
@@ -212,12 +208,12 @@ var out = compute(5)
 console.log(out);
 ```
 
-
-
 ## Update and API change
 
 - `0.0.4` major change in API, does not use `this` but uses argument to pass `path` and `state`.
 
 ## LICENCE
 
-- Code, documentation and images released under MIT Licence, see [LICENSE](https://github.com/sourcevault/binapi/blob/dist/LICENCE) for details.
+- Code released under MIT Licence, see [LICENSE](https://github.com/sourcevault/binapi/blob/dist/LICENCE) for details.
+
+- Documentation and Images released under CC-BY-4.0 see [LICENSE](https://github.com/sourcevault/binapi/blob/dev/LICENCE1) for details.

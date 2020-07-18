@@ -4,10 +4,6 @@ js-render     = require 'json-stringify-pretty-compact'
 
 R             = require "ramda"
 
-guard         = require "guard-js"
-
-yuan          = require \@yuanchuan/match
-
 SI            = require "seamless-immutable"
 
 reg           = require "./registry"
@@ -32,12 +28,14 @@ if (typeof window is "undefined") and (typeof module is "object")
 
   util-inspect-custom = util.inspect.custom
 
+
 else
 
   util-inspect-custom = Symbol.for "nodejs.util.inspect.custom"
 
 # --------------------------------------------------------
 
+noop[util-inspect-custom] = -> @[util-inspect-custom]
 
 main =
   j                   : j
@@ -45,8 +43,6 @@ main =
   R                   : R
   l                   : l
   SI                  : SI
-  guard               : guard
-  yuan                : yuan
   noop                : noop
   util-inspect-custom : util-inspect-custom
   isNodeJS            : isNodeJS
