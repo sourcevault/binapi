@@ -17,25 +17,25 @@ var binapi = require ("binapi")
 var main = function (flags,args)
 {
 
-	var a = args[0]
-	var b = args[1]
+  var a = args[0]
+  var b = args[1]
 
-	if (flags.flip) // flip arguments
-	{
-			var temporary = a
-			a = b
-			b = temporary
-	}
+  if (flags.flip) // flip arguments
+  {
+      var temporary = a
+      a = b
+      b = temporary
+  }
 
-	var output = a - b
+  var output = a - b
 
-	if (flags.abs) // output only absolute value
-	{
-			return Math.abs (output)
-	}
+  if (flags.abs) // output only absolute value
+  {
+      return Math.abs (output)
+  }
 
 
-	return output
+  return output
 
 }
 
@@ -78,15 +78,15 @@ var binapi = require ("binapi")
 
 folks =
 {
-	charles:{age:null},
-	henry:{age:null}
+  charles:{age:null},
+  henry:{age:null}
 }
 
 var main = function (flags,args)
 {
-	name = flags[0]
+  name = flags[0]
 
-	folks[name] = args[0]
+  folks[name] = args[0]
 }
 
 var setAge = binapi.list(main)
@@ -119,16 +119,16 @@ var sub = binapi(subtract,flags)
 ```js
 var subtract = function (flags)
 {
-	if (flags.flip) // false instead of undefined
-	{
-			// ... //
-	}
-	// ... //
-	if (flags.abs) // false instead of undefined
-	{
-			// ... //
-	}
-	// ... //
+  if (flags.flip) // false instead of undefined
+  {
+      // ... //
+  }
+  // ... //
+  if (flags.abs) // false instead of undefined
+  {
+      // ... //
+  }
+  // ... //
 }
 ```
 
@@ -146,9 +146,9 @@ main = function (){}
 
 main.log = function(path)
 {
-	var chain = ""path.join(' | ')
+  var chain = ""path.join(' | ')
 
-	console.log ( "( " + chain + " )")
+  console.log ( "( " + chain + " )")
 }
 test = binapi.list(main)
 
@@ -167,36 +167,25 @@ var binapi = require("binapi");
 
 var main = function(path, args, state){
 
-		var number = args[0];
+  var number = args[0];
 
-		if (path.length === 0) {
+  switch (path.length){
+    case 1;
+      switch (path[0]){
+        case "add";
+          return binapi.list(main, state + number);
+        case "multiply";
+          return binapi.list(main, state*number);
+        case "ret";
+          return state;
+        }
+    case 0;
+      return binapi.list(main, number);
+    default;
+      return console.log("Error !");
+  }
 
-			return binapi.list(main, number);
-
-		} else if (path.length === 1) {
-
-			type = path[0];
-
-			if (type === "add") {
-
-				return binapi.list(main, state + number);
-
-			} else if (type === "multiply") {
-
-				return binapi.list(main, state*number);
-
-			} else if (type === "ret") {
-
-				return state;
-
-			}
-		} else {
-
-			return console.log("Error !");
-
-		}
-
-	};
+}
 
 var compute = binapi.list(main);
 
@@ -216,4 +205,4 @@ console.log(out);
 
 - Code released under MIT Licence, see [LICENSE](https://github.com/sourcevault/binapi/blob/dist/LICENCE) for details.
 
-- Documentation and Images released under CC-BY-4.0 see [LICENSE](https://github.com/sourcevault/binapi/blob/dev/LICENCE1) for details.
+- Documentation and image released under CC-BY-4.0 see [LICENSE](https://github.com/sourcevault/binapi/blob/dev/LICENCE1) for details.
