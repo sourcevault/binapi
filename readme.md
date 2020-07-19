@@ -39,7 +39,7 @@ var main = function (flags,args)
 
 }
 
-var subtract = binapi(main)
+var subtract = binapi.obj(main)
 
 subtract(10,5) // 5
 
@@ -70,7 +70,7 @@ It's a pattern that can be used in situations where there is a need for module c
 
 .. **List**
 
-In the above example we used a flat object where there is loss of information regarding order. In case order matters then use `binapi.list`( default is `binapi.obj` ) :
+In the above example we used a flat object where there is loss of information regarding order. In case order matters then use `binapi.list`:
 
 ```js
 
@@ -134,7 +134,7 @@ var subtract = function (flags)
 
 .. **Custom Logging**
 
-Interally `binapi` uses ES6 proxies allowing us to bind custom log functions - making it possible to provide better object information when `console.log` ing the object :
+Internally `binapi` uses ES6 proxies allowing us to bind custom log functions - making it possible to provide better object information when `console.log` ing the object :
 
 A custom logger can be passed either using `util.inspect.custom` or `log` key attached to the the main function :
 
@@ -184,7 +184,6 @@ var main = function(path, args, state){
     default;
       return console.log("Error !");
   }
-
 }
 
 var compute = binapi.list(main);
@@ -200,6 +199,9 @@ console.log(out);
 ## Update and API change
 
 - `0.0.4` major change in API, does not use `this` but uses argument to pass `path` and `state`.
+
+- `0.0.8` major change in API, default `binapi` is list.
+
 
 ## LICENCE
 

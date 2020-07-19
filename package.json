@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "binary api",
   "repository": "https://github.com/sourcevault/binapi.git",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "dist/main.js",
   "scripts": {
     "test": "make travis"
@@ -18,6 +18,9 @@
   },
   "keywords": [
     "simple",
-    "functional"
+    "functional",
+    "ES6 Proxy",
+    "immutable",
+    "livescript"
   ]
 }
