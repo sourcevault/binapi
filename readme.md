@@ -9,18 +9,18 @@ npm install sourcevault/binapi#dist
 
 [![Build Status](https://travis-ci.org/sourcevault/binapi.svg?branch=dev)](https://travis-ci.org/sourcevault/binapi)
 
-.. **Basic Example**
+🟡 *.. quick Example 1 ..*
 
 ```js
 var binapi = require ("binapi")
 
-var main = function (flags,args)
+var main = function (path,args)
 {
 
   var a = args[0]
   var b = args[1]
 
-  if (flags.flip) // flip arguments
+  if (path.includes('flip')) // flip arguments
   {
       var temporary = a
       a = b
@@ -29,17 +29,16 @@ var main = function (flags,args)
 
   var output = a - b
 
-  if (flags.abs) // output only absolute value
+  if (path.includes('abs')) // output only absolute value
   {
       return Math.abs (output)
   }
-
 
   return output
 
 }
 
-var subtract = binapi.obj(main)
+var subtract = binapi(main)
 
 subtract(10,5) // 5
 
@@ -51,12 +50,9 @@ subtract.abs.flip(10,5) //  5
 
 // last two operations are doing the same thing
 
-
 ```
 
-As shown in the above listing, we are using object properties as switches to turn "ON" certain flags in `main` above.
-
-It's a pattern that can be used in situations where there is a need for module consumers to start with sane defaults and then play around with module flags to customize functionality, instead of embedding them in an object and passing it as an extra argument  - which can be a hassle.
+As shown above, we are using object properties as switches to turn "ON" certain flags in `main`.
 
 [colors](https://www.npmjs.com/package/colors) is a good example of module that follows this pattern.
 
@@ -64,13 +60,9 @@ It's a pattern that can be used in situations where there is a need for module c
 
 .. **Features**
 
- - functions are built lazily, if you have 100 flags and use only 3 functions that use *n* flag combination - then only 3 functions are created.
+ - functions are built lazily, if you have 100 methods but the user only uses 3 functions - then only 3 objects are created.
 
- - The first argument `flags` referred in the above code points to an [seamless-immutable](https://github.com/rtfeldman/seamless-immutable) object that can be used to query what flags the user has enabled.
-
-.. **List**
-
-In the above example we used a flat object where there is loss of information regarding order. In case order matters then use `binapi.list`:
+🟡 *...Example 2...*
 
 ```js
 
@@ -101,66 +93,11 @@ console.log(folks.henry) //29
 
 ```
 
-.. **Type consistency for `binapi.obj`**
-
-Its best to pass all possible flags the program accepts while generating the public function. Using `subtract` from the basic example above :
-
-```js
-var binapi = require ("binapi")
-
-flags = ["flip","abs"]
-
-var sub = binapi(subtract,flags)
-
-```
-
- Now within `subtract` we get a more consistant type.
-
-```js
-var subtract = function (flags)
-{
-  if (flags.flip) // false instead of undefined
-  {
-      // ... //
-  }
-  // ... //
-  if (flags.abs) // false instead of undefined
-  {
-      // ... //
-  }
-  // ... //
-}
-```
-
-.. **Custom Logging**
-
-Internally `binapi` uses ES6 proxies allowing us to bind custom log functions - making it possible to provide better object information when `console.log` ing the object :
-
-A custom logger can be passed either using `util.inspect.custom` or `log` key attached to the the main function :
-
-```js
-
-var binapi = require ("binapi")
-
-main = function (){}
-
-main.log = function(path)
-{
-  var chain = ""path.join(' | ')
-
-  console.log ( "( " + chain + " )")
-}
-test = binapi.list(main)
-
-tsf = test.sync.flip
-
-console.log (tsf) // ( sync | flip )
-
-```
-
-#### .. passing state
+#### Adding State
 
 Sometimes some state has to be present in your function, this is especially useful for nested proxies.
+
+🟡 *..Example 3 - adding state variable as second argument..*
 
 ```js
 var binapi = require("binapi");
@@ -173,20 +110,20 @@ var main = function(path, args, state){
     case 1;
       switch (path[0]){
         case "add";
-          return binapi.list(main, state + number);
+          return binapi(main, state + number);
         case "multiply";
-          return binapi.list(main, state*number);
+          return binapi(main, state*number);
         case "ret";
           return state;
         }
     case 0;
-      return binapi.list(main, number);
+      return binapi(main, number);
     default;
       return console.log("Error !");
   }
 }
 
-var compute = binapi.list(main);
+var compute = binapi(main,null);
 
 var out = compute(5)
 .add(5)
@@ -196,14 +133,40 @@ var out = compute(5)
 console.log(out);
 ```
 
-## Update and API change
+#### Custom Logger
 
-- `0.0.4` major change in API, does not use `this` but uses argument to pass `path` and `state`.
+Internally `binapi` uses ES6 proxies allowing binding of custom log functions - providing us with the option of providing better object information when during `console.log`, custom log function is added as the thrid argument.
+
+
+🟡 *..Example 4 - custom logger provided as third argument..*
+
+```js
+var binapi = require ("binapi")
+
+var main = function (){}
+
+var log = function(path)
+{
+  var chain = ""path.join(' | ')
+
+  console.log ( "( " + chain + " )")
+}
+test = binapi.list(main,{},log)
+
+tsf = test.sync.flip
+
+console.log (tsf) // ( sync | flip )
+```
+
+#### Update and API change
+
+- `0.1.0` major change in API, support for `binapi.obj` dropped.
 
 - `0.0.8` major change in API, default `binapi` is list.
 
+- `0.0.4` major change in API, does not use `this` but uses argument to pass `path` and `state`.
 
-## LICENCE
+#### LICENCE
 
 - Code released under MIT Licence, see [LICENSE](https://github.com/sourcevault/binapi/blob/dist/LICENCE) for details.
 

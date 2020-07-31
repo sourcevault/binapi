@@ -5,7 +5,7 @@ homepage: https://github.com/sourcevault/binapi#readme.md
 license: MIT
 description: binary api
 repository: https://github.com/sourcevault/binapi.git
-version: 0.0.9
+version: 0.1.0
 main: dist/main.js
 scripts:
   "test": "make travis"
@@ -14,8 +14,8 @@ dependencies:
   ramda: "0.26.1"
   json-stringify-pretty-compact: "2.0.0"
 keywords:
-  - simple
-  - functional
   - ES6 Proxy
+  - functional
   - immutable
   - livescript
+  - simple

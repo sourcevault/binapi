@@ -1,39 +1,39 @@
-com = require "../dist/common"
-
-{l,z} = com
+reg = require "../dist/registry"
 
 binapi = require "../dist/main"
 
-reg = require "../dist/registry"
+{com,printE} = reg
+
+{l,z,j} = com
 
 fail = reg.printE.fail "test/test1.js"
 
 # ------- ----------------------------------------------------------------------------------
 
-# <| TEST 7 |>
+# <| TEST 6 |>
 
 # complex monadic api example from readme
 
-F7 = (path,args,state) ->
+F6 = (path,args,state) ->
 
   [number] = args
 
   switch path.length
-  | 0 => binapi.list F7,number
+  | 0 => binapi F6,number
   | 1 =>
     switch path[0]
-    | "add" =>  binapi.list F7,(state + number)
-    | "multiply" => binapi.list F7,(state*number)
+    | "add" =>  binapi F6,(state + number)
+    | "multiply" => binapi F6,(state*number)
     | "ret" => state
     | otherwise =>
-      fail 7
+      fail 6
   | otherwise =>
-    fail 7
+    fail 6
 
 
 try
 
-  compute = binapi.list F7
+  compute = binapi F6
 
   out = compute 5
   .add 5

@@ -6,15 +6,11 @@ R             = require "ramda"
 
 SI            = require "seamless-immutable"
 
-reg           = require "./registry"
-
 # --------------------------------------------------------------------------------------
 
 l = console.log
 
 z = l
-
-noop = !->
 
 j = (json) !-> l js-render json
 
@@ -34,6 +30,8 @@ else
   util-inspect-custom = Symbol.for "nodejs.util.inspect.custom"
 
 # --------------------------------------------------------
+
+noop = !->
 
 noop[util-inspect-custom] = -> @[util-inspect-custom]
 

@@ -1,12 +1,12 @@
-{l} = require "./common"
-
 reg = require "./registry"
+
+l = reg.com.l
 
 printE = reg.printE
 
 packageJ = reg.packageJ
 
-reg.printE.noArg = !->
+printE.noArg = !->
 
   l do
     """
@@ -18,12 +18,12 @@ reg.printE.noArg = !->
 
     """
 
-reg.printE.funIsFun = !->
+printE.type = (message)->
 
 
   l do
     """
-    [#{packageJ.name}][argument.type.error] first argument should be function.
+    [#{packageJ.name}][argument.type.error] #{message}.
 
       - to learn how to use to module you can read manual at :
 
@@ -31,7 +31,7 @@ reg.printE.funIsFun = !->
 
     """
 
-reg.printE.fail = (filename) -> (message) !->
+printE.fail = (filename) -> (message) !->
 
   l do
     "[TEST ERROR] originating from module"
@@ -44,6 +44,4 @@ reg.printE.fail = (filename) -> (message) !->
 
 
   process.exitCode = 1
-
-module.exports = reg.printE
 
