@@ -13,20 +13,18 @@ fail = reg.printE.fail "test/test2.js"
 
 # <| TEST 1 |>
 
-P = binapi do
-  (path) ->
+lopo = (state) -> binapi fun,get,state
 
-    ret = {}
+get = (state,key) ->
+  state[key] = true
+  state
 
-    for I in path
+fun = (state,args) -> lopo state
 
-      ret[I] = true
+P = binapi fun,get,{}
 
-    ret
 
 K = P.flip.callback!
-
-
 
 if not (K.flip or K.callback)
 
@@ -34,11 +32,11 @@ if not (K.flip or K.callback)
 
 # <| TEST 2 to 4 |>
 
-subtract = (flags,args) ->
+subtract = (state,args) ->
 
   [a,b] = args
 
-  if flags.includes \flip # flip arguments
+  if state.flip # flip arguments
 
     temporary = a
 
@@ -48,14 +46,13 @@ subtract = (flags,args) ->
 
   output = a - b
 
-  if flags.includes \abs # output only absolute value
+  if state.abs # output only absolute value
 
     return Math.abs output
 
   return output
 
-
-sub  = binapi subtract
+sub  = binapi subtract,get,{}
 
 # <| TEST 2 |>
 
@@ -63,13 +60,13 @@ if not ((sub 10,5) is 5)
 
   fail 2
 
-# <| TEST 3 |>
+# # <| TEST 3 |>
 
 if not ((sub.flip.subtract 10,5 ) is -5)
 
   fail 3
 
-# <| TEST 4 |>
+# # <| TEST 4 |>
 
 if not ((sub.flip.abs 10,5) is 5)
 

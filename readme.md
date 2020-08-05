@@ -14,13 +14,13 @@ npm install sourcevault/binapi#dist
 ```js
 var binapi = require ("binapi")
 
-var main = function (path,args)
+var main = function (state,args)
 {
 
   var a = args[0]
   var b = args[1]
 
-  if (path.includes('flip')) // flip arguments
+  if (state.flip) // flip arguments
   {
       var temporary = a
       a = b
@@ -29,16 +29,21 @@ var main = function (path,args)
 
   var output = a - b
 
-  if (path.includes('abs')) // output only absolute value
+  if (state.abs) // output only absolute value
   {
-      return Math.abs (output)
+      return Math.abs(output)
   }
 
   return output
 
 }
 
-var subtract = binapi(main)
+getter = function(state,key) {
+  state[key] = true
+  return state;
+}
+
+var subtract = binapi(main,getter,{})
 
 subtract(10,5) // 5
 
@@ -62,6 +67,12 @@ As shown above, we are using object properties as switches to turn "ON" certain 
 
  - functions are built lazily, if you have 100 methods but the user only uses 3 functions - then only 3 objects are created.
 
+`binapi` requires 2 functions to initialize :
+
+- *application function* - it is run whenever there is a call from the user.
+- *getter function* - it is used to resolve `.` operations issued by the user.
+
+
 🟡 *...Example 2...*
 
 ```js
@@ -74,14 +85,15 @@ folks =
   henry:{age:null}
 }
 
-var main = function (flags,args)
+var main = function(key,args)
 {
-  name = flags[0]
 
-  folks[name] = args[0]
+  folks[key] = args[0]
 }
 
-var setAge = binapi.list(main)
+var getter = function(state,key) {return key}
+
+var setAge = binapi(main,getter)
 
 setAge.charles(32)
 
@@ -93,49 +105,48 @@ console.log(folks.henry) //29
 
 ```
 
-#### Adding State
+#### ..using state variable
 
-Sometimes some state has to be present in your function, this is especially useful for nested proxies.
+Sometimes some state has to be present in your function, this is especially useful for nested `binapi`s.
 
 🟡 *..Example 3 - adding state variable as second argument..*
 
 ```js
 var binapi = require("binapi");
 
-var main = function(path, args, state){
+var main,getter;
 
-  var number = args[0];
+var loop = (state) => binapi(main,getter,state);
 
-  switch (path.length){
-    case 1;
-      switch (path[0]){
-        case "add";
-          return binapi(main, state + number);
-        case "multiply";
-          return binapi(main, state*number);
-        case "ret";
-          return state;
-        }
-    case 0;
-      return binapi(main, number);
-    default;
-      return console.log("Error !");
-  }
-}
+var get = ([num],key) => [num,key];
 
-var compute = binapi(main,null);
+var F6 = ([x,key],args) =>
+
+  var y = args[0]
+
+  switch (key) {
+  case "init":
+    return loop([y]);
+  case "add":
+    return loop([x + y]);
+  case "multiply":
+    return loop([x * y]);
+  case "ret":
+    return x;
+  default:
+    return fail(6);
+
+var compute = lopo(["init"])
 
 var out = compute(5)
 .add(5)
 .multiply(10)
-.ret();
-
-console.log(out);
+.ret!
 ```
 
 #### Custom Logger
 
-Internally `binapi` uses ES6 proxies allowing binding of custom log functions - providing us with the option of providing better object information when during `console.log`, custom log function is added as the thrid argument.
+Internally `binapi` uses ES6 proxies allowing binding of custom log functions - providing us with the option of providing better object information when using `console.log`, custom log function is added as the 4rth argument.
 
 
 🟡 *..Example 4 - custom logger provided as third argument..*
@@ -145,13 +156,15 @@ var binapi = require ("binapi")
 
 var main = function (){}
 
-var log = function(path)
-{
-  var chain = ""path.join(' | ')
+var getter = function(state,key) {return state.concat(key);}
 
-  console.log ( "( " + chain + " )")
+var log = function(state)
+{
+  var chain = state.join(' | ')
+
+  console.log ("( " + chain + " )")
 }
-test = binapi.list(main,{},log)
+test = binapi(main,getter,[],log)
 
 tsf = test.sync.flip
 

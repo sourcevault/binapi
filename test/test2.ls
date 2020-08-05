@@ -9,3 +9,22 @@ binapi = require "../dist/main"
 fail = reg.printE.fail "test/test2.js"
 
 # ------------------------------------------------------------------------------------------
+
+main = ->
+
+getter = (state,key) ->
+	state.concat key
+
+log = (state) ->
+
+	chain = state.join(' | ')
+
+	"( " + chain + " )"
+
+test = binapi(main,getter,[],log)
+
+tsf = test.sync.flip
+
+
+
+
