@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "binary api",
   "repository": "https://github.com/sourcevault/binapi.git",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "main": "dist/main.js",
   "scripts": {
     "test": "make travis"

@@ -10,13 +10,11 @@ require "./print" # [... load print.js ...]
 
 # -----------------------------------------------
 
-generic_log = (path,state) ->
-
-  l path
+generic_log = (state) ->
 
   state
 
-veri = (arglen,fun,custom_log) ->
+veri = (arglen,fun,uget,state,ulog) ->
 
   switch arglen
   | 0 =>
@@ -29,47 +27,51 @@ veri = (arglen,fun,custom_log) ->
     printE.type "first argument should be a function"
     return null
 
-  switch typeof custom_log
-  | \function => custom_log
+  switch typeof uget
+  | \function => 0
+  | otherwise =>
+    printE.type "second argument ( getter) should be a function"
+    return null
+
+  switch typeof ulog
+  | \function => ulog
   | otherwise => generic_log
 
 # -----------------------------------------------
 
-get = (__,key,___) ->
+ap = (__,___,args) ->
 
-  switch key
-  | uic       => return @log @hist,@state
+  @fun @state,args
 
-  ret = @cache[key]
+get = (__,ukey,___) ->
+
+  switch ukey
+  | uic       => return @log @state
+
+  ret = @cache[ukey]
 
   if ret then return ret
 
-  hist = @hist.concat key
+  state = @uget @state,ukey
 
   data =
-    hist:hist
     cache:{}
     log:@log
     fun:@fun
-    state:@state
+    state:state
     apply:ap
     get:get
+    uget:@uget
 
   P = new Proxy(noop,data)
 
-  @cache[key] = P
+  @cache[ukey] = P
 
   return P
 
+pub = (fun,uget,state,ulog) ->
 
-ap = (__,___,args) ->
-
-  @fun @hist,args,@state
-
-
-pub = (fun,state,ulog) ->
-
-  log = veri arguments.length,fun,ulog
+  log = veri arguments.length,fun,uget,state,ulog
 
   switch log
   | null => return
@@ -78,7 +80,7 @@ pub = (fun,state,ulog) ->
     log:log
     fun:fun
     state:state
-    hist:[]
+    uget:uget
     cache:{}
     apply:ap
     get:get

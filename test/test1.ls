@@ -14,26 +14,27 @@ fail = reg.printE.fail "test/test1.js"
 
 # complex monadic api example from readme
 
-F6 = (path,args,state) ->
+get = ([old,num],key) -> [key,num]
 
-  [number] = args
 
-  switch path.length
-  | 0 => binapi F6,number
-  | 1 =>
-    switch path[0]
-    | "add" =>  binapi F6,(state + number)
-    | "multiply" => binapi F6,(state*number)
-    | "ret" => state
-    | otherwise =>
+lopo = (state) -> binapi F6,get,state
+
+F6 = ([key,x],args) ->
+
+  [y] = args
+
+  switch key
+  | null       => lopo ["init",y]
+  | "add"      => lopo ["chain",x + y]
+  | "multiply" => lopo ["chain",x*y]
+  | "ret"      => x
+  | otherwise  =>
       fail 6
-  | otherwise =>
-    fail 6
 
 
 try
 
-  compute = binapi F6
+  compute = lopo [null]
 
   out = compute 5
   .add 5
@@ -42,10 +43,10 @@ try
 
   if not (out is 100)
 
-    fail 7
+    fail 6
 
 catch E
   l E
-  fail 7
+  fail 6
 
 
