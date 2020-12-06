@@ -4,8 +4,6 @@ js-render     = require 'json-stringify-pretty-compact'
 
 R             = require "ramda"
 
-SI            = require "seamless-immutable"
-
 # --------------------------------------------------------------------------------------
 
 l = console.log
@@ -40,7 +38,6 @@ main =
   z                   : z
   R                   : R
   l                   : l
-  SI                  : SI
   noop                : noop
   util-inspect-custom : util-inspect-custom
   isNodeJS            : isNodeJS

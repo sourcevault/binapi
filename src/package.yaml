@@ -10,7 +10,6 @@ main: dist/main.js
 scripts:
   "test": "make travis"
 dependencies:
-  seamless-immutable: "7.1.4"
   ramda: "0.26.1"
   json-stringify-pretty-compact: "2.0.0"
 keywords:
