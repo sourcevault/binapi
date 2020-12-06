@@ -12,8 +12,7 @@
     "test": "make travis"
   },
   "dependencies": {
-    "ramda": "0.26.1",
-    "json-stringify-pretty-compact": "2.0.0"
+    "ramda": "0.26.1"
   },
   "keywords": [
     "ES6 Proxy",
