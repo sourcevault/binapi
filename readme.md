@@ -1,5 +1,4 @@
-
-![](./logo.jpg)
+![](https://raw.githubusercontent.com/sourcevault/binapi/dev/logo.jpg)
 
 ```js
 npm install binapi
@@ -181,6 +180,6 @@ console.log (tsf) // ( sync | flip )
 
 #### LICENCE
 
-- Code released under MIT Licence, see [LICENSE](https://github.com/sourcevault/binapi/blob/dist/LICENCE) for details.
-
-- Documentation and image released under CC-BY-4.0 see [LICENSE](https://github.com/sourcevault/binapi/blob/dev/LICENCE1) for details.
+- Code released under BSD-3-Clause.
+- Documentation and images released under CC BY-NC-ND 4.0.
+- details can be found [here](https://github.com/sourcevault/remotemon/blob/dev/COPYING.txt).

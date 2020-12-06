@@ -1,7 +1,5 @@
 # --------------------------------------------------------------------------------------
 
-js-render     = require 'json-stringify-pretty-compact'
-
 R             = require "ramda"
 
 # --------------------------------------------------------------------------------------
@@ -9,8 +7,6 @@ R             = require "ramda"
 l = console.log
 
 z = l
-
-j = (json) !-> l js-render json
 
 # --------------------------------------------------------
 
@@ -34,7 +30,6 @@ noop = !->
 noop[util-inspect-custom] = -> @[util-inspect-custom]
 
 main =
-  j                   : j
   z                   : z
   R                   : R
   l                   : l
