@@ -1,7 +1,5 @@
 
-<!-- ![](./logo.jpg) -->
-
-![](https://raw.githubusercontent.com/sourcevault/binapi/dev/logo.jpg)
+![](./logo.jpg)
 
 ```js
 npm install binapi
