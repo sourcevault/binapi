@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "description": "binary api",
   "repository": "https://github.com/sourcevault/binapi.git",
-  "version": "0.1.01",
+  "version": "0.2.0",
   "main": "dist/main.js",
   "scripts": {
     "test": "make travis"
