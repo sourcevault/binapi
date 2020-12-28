@@ -69,7 +69,7 @@ As shown above, we are using object properties as switches to turn "ON" certain 
 `binapi` requires 2 functions to initialize :
 
 - *application function* - it is run whenever there is a call from the user.
-- *getter function* - it is used to resolve `.` operations issued by the user.
+- *getter function* - run whenever  `.` operation is appiled, needed for updating state variable needed by the application function.
 
 
 🟡 *...Example 2...*
