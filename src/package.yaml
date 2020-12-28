@@ -2,7 +2,7 @@ name: binapi
 author: sourcevault
 email: joykrishnamondal@gmail.com
 homepage: https://github.com/sourcevault/binapi#readme.md
-license: MIT
+license: BSD-3-Clause
 description: binary api
 repository: https://github.com/sourcevault/binapi.git
 version: 0.1.01
